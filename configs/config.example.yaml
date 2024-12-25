@@ -1,0 +1,70 @@
+server:
+  name: monitor
+  version: 1.0.0
+  mode: debug  # debug/release
+  http:
+    host: 0.0.0.0
+    port: 8080
+    read_timeout: 10s
+    write_timeout: 10s
+    idle_timeout: 10s
+
+database:
+  driver: mysql
+  host: localhost
+  port: 3306
+  username: root
+  password: root
+  dbname: monitor
+  params:
+    charset: utf8mb4
+    parseTime: true
+    loc: Local
+  pool:
+    max_open_conns: 100
+    max_idle_conns: 10
+    conn_max_lifetime: 1h
+
+redis:
+  enabled: false
+  host: localhost
+  port: 6379
+  password: ""
+  db: 0
+  pool:
+    max_idle: 10
+    max_active: 100
+    idle_timeout: 300s
+
+log:
+  level: info  # debug/info/warn/error
+  format: json # text/json
+  output: stdout  # stdout/file
+  file:
+    path: logs/monitor.log
+    max_size: 100    # MB
+    max_age: 7       # days
+    max_backups: 10
+    compress: true
+
+monitor:
+  default_interval: 60s  # 默认监控间隔
+  default_timeout: 10s   # 默认请求超时
+  retry:
+    times: 3            # 重试次数
+    delay: 5s           # 重试间隔
+
+notification:
+  dingtalk:
+    enabled: false
+    webhook: ""
+    secret: ""
+    timeout: 5s
+  pushplus:
+    enabled: false
+    token: ""
+    timeout: 5s
+
+metrics:
+  enabled: true
+  path: /metrics 

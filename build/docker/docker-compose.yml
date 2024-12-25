@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: build/docker/Dockerfile
+    container_name: monitor-app
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../../configs:/app/configs
+      - ../../logs:/app/logs
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - monitor-network
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: monitor-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=monitor
+      - TZ=Asia/Shanghai
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ../../scripts/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - monitor-network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: monitor-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - monitor-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  monitor-network:
+    driver: bridge 

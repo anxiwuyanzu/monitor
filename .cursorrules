@@ -1,0 +1,97 @@
+{
+  "rules": {
+    "golang": {
+      "formatting": {
+        "imports": {
+          "grouping": [
+            "standard",           // 标准库
+            "third_party",        // 第三方包
+            "project"            // 项目内部包
+          ],
+          "aliasing": "avoid"    // 避免使用别名
+        },
+        "line_length": {
+          "max": 120,            // 最大行长度
+          "tab_width": 4         // 缩进宽度
+        },
+        "comments": {
+          "package": "required", // 包注释必需
+          "exported": "required" // 导出项注释必需
+        }
+      },
+      "naming": {
+        "packages": "snake_case",
+        "files": "snake_case",
+        "types": "PascalCase",
+        "interfaces": "PascalCase",
+        "variables": "camelCase",
+        "constants": "PascalCase"
+      },
+      "testing": {
+        "naming": "Test{Type}_{Scenario}",
+        "coverage": {
+          "minimum": 80
+        }
+      }
+    },
+    "git": {
+      "commit": {
+        "message": {
+          "format": "<type>(<scope>): <description>",
+          "types": [
+            "feat",     // 新功能
+            "fix",      // 修复
+            "docs",     // 文档
+            "style",    // 格式
+            "refactor", // 重构
+            "test",     // 测试
+            "chore"     // 构建/工具
+          ],
+          "max_length": {
+            "title": 72,
+            "body": 120
+          }
+        },
+        "file_size": {
+          "max": "10MB"
+        }
+      },
+      "branch": {
+        "naming": {
+          "pattern": "(feature|bugfix|release|hotfix)/{ticket}-{description}",
+          "examples": [
+            "feature/MON-123-add-monitor-api",
+            "bugfix/MON-124-fix-notification-bug"
+          ]
+        }
+      }
+    },
+    "project": {
+      "structure": {
+        "required_files": [
+          "README.md",
+          "Makefile",
+          "go.mod",
+          ".gitignore"
+        ],
+        "required_dirs": [
+          "api",
+          "cmd",
+          "configs",
+          "internal",
+          "pkg",
+          "docs"
+        ]
+      },
+      "documentation": {
+        "required": [
+          "Installation",
+          "Configuration",
+          "Usage",
+          "API",
+          "Development"
+        ]
+      }
+    }
+  }
+}
